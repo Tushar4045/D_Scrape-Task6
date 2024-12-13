@@ -15,22 +15,16 @@ if __name__ == '__main__':
         page.screenshot(full_page=True,path='./flip.png')
         flipHtml = page.inner_html('body')
         flipData = HTMLParser(flipHtml)
-        
-        lapTitle = [t.text() for t in flipData.css('div[class="KzDlHZ"]')]
-        lapPrice = [p.text().strip() for p in flipData.css('div[class="Nx9bqj _4b5DiR"]')]
-        lapSpec = [s.text()for s in flipData.css('div[class="_6NESgJ"]')]
-        lapRating = [r.text() for r in flipData.css('span[class="Y1HWO0"]')]
-        # flipImg = {
-        #     'imgAlt': [a.attributes.get('alt') for a in flipData.css('div [class="yPq5Io"]'). ]
-        # }
-        lapData = {
-           'Title':lapTitle,
-           'Price':lapPrice,
-           'Specifications': lapSpec,
-           'Rating':lapRating
-        }
-        df = pd.DataFrame(lapData)
-        # df['Price'] = df['Price'].str.replace(r'[^\d₹.,]', '', regex=True)
-        lpDf = df.replace({r'[“”‘’]': '"'}, regex=True)
 
-        lpDf.to_csv('laptop.csv')
+        for data in flipData.css('div[class="tUxRFH"]'):
+            lapTitle = data.css_first('div[class="KzDlHZ"]').text()
+            lapImg = {'imgAlt':data.css_first('img[class="DByuf4"]').attrs['alt'],
+                      'imgSrc': data.css_first('img[class="DByuf4"]').attrs['src']}
+            lapPrice = data.css_first('div[class="Nx9bqj _4b5DiR"]').text()
+            lapSpec = data.css_first('ul[class="G4BRas"]').text()
+            lapRatRev = data.css_first('div[class="_5OesEi"]').text()
+
+        
+            print(  )
+            print()
+        
